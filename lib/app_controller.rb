@@ -1,17 +1,35 @@
+
+require 'pry'
+
 class AppController
 
-def new_user
-User.create(name:"#{first_name, last_name}", contact_email:"#{contact_email}")
-end
-def new_user
-User.create(name:"John Michael", contact_email:"jmichael@gmail.com")
-end
-def new_user
-  User.create(name:"Stuart Johnson", contact_email:"sjohnson@gmail.com")
-end
+    def run
+        puts "Welcome to Fest Tracker."
+        puts "What would you like to do today?"
 
+       main_menu
+    end
 
+    def main_menu
+        puts "1. list of location"
 
+        choice = gets.strip.to_i
+        # until choice == 3
+            case choice
+            when 1
+              list_locations
+            else
+                puts "Invalid Entry."
+            end
+        # end
+    end
 
+    def list_locations
+        # binding.pry
+        new_array =[]
+        festivals = Festival.all
+        new_array << festivals.each do |fest|
+        end
+    end
 
 end
