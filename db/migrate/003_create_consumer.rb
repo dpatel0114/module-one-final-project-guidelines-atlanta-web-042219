@@ -7,5 +7,5 @@ class CreateConsumer < ActiveRecord::Migration
             t.string :contact_email
     end
 
-
+    end
 end

@@ -1,7 +1,7 @@
 
 class Consumer < ActiveRecord::Base
 
-    has many :festival
-    has many :consumer through: :review
+    has_many :reviews
+    has_many :festivals, through: :reviews
 
 end
