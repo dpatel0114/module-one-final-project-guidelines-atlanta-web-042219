@@ -2,6 +2,6 @@
 class Consumer < ActiveRecord::Base
 
     has many :festival
-    has many :
+    has many :consumer through: :review
 
 end
