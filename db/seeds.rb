@@ -7,6 +7,7 @@ require_relative "../lib/review.rb"
 
 
 
+
 #* Festival
 Festival.create(category: "music", name: "bonaroo", date_time: "2019-12-05", location: "Atlanta, GA" )
 Festival.create(category: "art", name: "piedmont park arts festival", date_time: "2019-09-09", location: "Atlanta, GA" )
@@ -29,3 +30,4 @@ Review.create(consumer_id: 3, festival_id: 6, review_description: "the festival 
 Consumer.create(name: ‘Shara Brown’ ,contact_email: ‘sbrown@gmail.com’)
 Consumer.create(name: ‘John Michael’ ,contact_email: ‘jmichael@gmail.com’)
 Consumer.create(name: ‘Stuart Johnson’ ,contact_email: ‘sjohnson@gmail.com’)
+
