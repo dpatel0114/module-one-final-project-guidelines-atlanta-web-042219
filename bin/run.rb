@@ -1,7 +1,7 @@
 require_relative '../config/environment'
-require_relative "../lib/consumer.rb"
-require_relative "../lib/festival.rb"
-require_relative "../lib/review.rb"
+require_relative '../lib/consumer.rb'
+require_relative '../lib/festival.rb'
+require_relative '../lib/review.rb'
 
 
 # puts "HELLO WORLD"
