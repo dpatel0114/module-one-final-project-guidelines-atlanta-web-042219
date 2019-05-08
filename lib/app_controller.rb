@@ -78,7 +78,7 @@ class AppController
 
         Review.create(consumer_id: user.id, festival_id: f_id,review_description: review,
                     rating: rate)
-        
+
         puts 'Thank you for leaving a review!'
     end
 
