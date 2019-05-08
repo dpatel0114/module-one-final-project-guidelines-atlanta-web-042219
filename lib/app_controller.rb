@@ -9,9 +9,9 @@ class AppController
     end
 
     def main_menu
-        puts "1. list of locations." 
+        puts "1. list of locations for festival." 
         puts "2. add reviews."
-        puts "3. update reviews."
+        puts "3. Update/Delete profile"
 
         choice = gets.strip.to_i
            
@@ -19,9 +19,12 @@ class AppController
             when 1
               list_locations
             when 2
-              add_reviews
+            puts 'Are you a consumer? Yes/ No'
+            ans = gets.strip
+            user_details = current_user(ans)
+            add_reviews(user_details)
             when 3
-                update_reviews
+                update_profile
             else 
             puts "Invalid Entry."
         # ends
@@ -59,9 +62,65 @@ class AppController
         end
     end
 
+    def add_reviews(user)
+        puts "Hi!! #{user.name}"
+        puts 'Enter festival id : '
+        f_id = gets.strip
+        puts 'Enter your review descriptions: '
+        review = gets.strip
+        puts 'Enter your rating: '
+        rate = gets.strip.to_f
+
+        Review.create(consumer_id:user.id, festival_id: f_id,review_description:review,
+                    rating:rate)
+        
+        puts 'Thank you for leaving a review!'
 
 
+    end
 
+    def current_user(answer)
+        if ans.downcase == 'yes'
+            puts 'Enter your email: '
+            email = gets.strip
+            user_details = Consumer.find_by(contact_email:email)
+        else
+            puts 'You have to register to leave Review!'
+            user_details = create_user
+            
+        end
+        user_details
+    end
+
+
+    def create_user
+        puts 'Enter Your Full Name:'
+        u_name = gets.strip
+        puts 'Enter your email:'
+        email_id = gets.strip
+        Consumer.create(name: u_name, contact_email: email_id)
+    end
+
+    def update_profile
+        puts 'Do you have a account with us? Yes/No :'
+        ans = gets.strip
+        if ans.downcase == 'yes'
+            puts 'Enter your email : '
+            email_id = gets.strip
+            user = Consumer.find_by(contact_email: email_id)
+            puts "Your current email : #{user.contact_email}"
+            puts "Your current name : #{user.name}"
+
+            puts "Enter your new email id :"
+            new_email = gets.strip
+            user.update(contact_email:new_email)
+        else
+            current_user('no')
+
+        end
+
+        puts "Thank you for being valvuable member!!"
+    end 
 
     def run
         welcome 
