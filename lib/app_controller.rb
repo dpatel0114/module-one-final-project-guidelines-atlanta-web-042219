@@ -41,7 +41,7 @@ class AppController
         festivals.each_with_index do |fest,id|
             puts " #{id+1}. #{fest.location}"
         end
-        user = gets.strip.to_i
+        gets.strip.to_i
     end
 
     
@@ -61,9 +61,10 @@ class AppController
                 count +=1
             end
         else  
-            "Invalid"
+            "Invalid Entry!!"
         end
     end
+
 
     def add_reviews(user)
         # binding.pry
@@ -122,17 +123,24 @@ class AppController
             current_user('no')
 
         end
-        puts "Thank you for being a valuable member!!"
+        puts "Thank you for being a valuable member! "
     end 
     
 
 
     def delete_profile
         puts "If you want to delete your profile type Yes: "
-        user_input = gets.strip
-        if user_input.downcase == "yes"
-            user.destroy.all
+        user = gets.strip
+        if user.downcase == "yes"
+            puts "Enter your name : "
+            name = gets.strip
+            user = Consumer.find_by(name: name)
+            user.destroy_all
         end
+
+
+        
+
         # puts 'Do you have a account with us? Yes/No :'
         # user = gets.strip
         # if user == "yes"
@@ -150,7 +158,7 @@ class AppController
         welcome 
         location = main_menu
         festival_by_location(location)
-        # add_review
+       
     end 
     
 end
