@@ -1,7 +1,9 @@
-
-require_relative "../lib/festival.rb"
-require_relative "../lib/consumer.rb"
-require_relative "../lib/review.rb"
+Festival.destroy_all
+Review.destroy_all
+Consumer.destroy_all
+# require_relative "../lib/festival.rb"
+# require_relative "../lib/consumer.rb"
+# require_relative "../lib/review.rb"
 
 
 

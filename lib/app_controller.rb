@@ -30,7 +30,7 @@ class AppController
                 delete_profile
             else 
             puts "Invalid Entry."
-        # ends
+        
         end
     end
     
@@ -41,10 +41,9 @@ class AppController
         festivals.each_with_index do |fest,id|
             puts " #{id+1}. #{fest.location}"
         end
-        gets.strip.to_i
+        user = gets.strip.to_i
     end
 
-    
 
     def festival_by_location(location)
         # binding.pry
@@ -65,6 +64,30 @@ class AppController
         end
     end
 
+
+    # def festival_by_category()
+    #     count =1
+    #     case category
+    #     when 1
+    #         Festival.where(categpry: "music").find_each do |fest|
+    #             puts "#{count}. #{fest.name} "
+    #             count +=1
+    #         end
+    #     when 2
+    #         Festival.where(category: "art").find_each do |fest|
+    #             puts "#{count}.  #{fest.name} "
+    #             count +=1
+    #         end
+        # when 3
+    #         Festival.where(category: "religious").find_each do |fest|
+    #             puts "#{count}.  #{fest.name} "
+    #             count +=1
+    #         end
+    #     else 
+    #         "Invalid Entry!!"
+    # end
+
+    
 
     def add_reviews(user)
         # binding.pry
@@ -110,13 +133,13 @@ class AppController
         puts 'Do you have a account with us? Yes/No :'
         ans = gets.strip
         if ans.downcase == 'yes'
-            puts 'Enter your email : '
+            puts 'Enter your email: '
             email_id = gets.strip
             user = Consumer.find_by(contact_email: email_id)
-            puts "Your current email : #{user.contact_email}"
-            puts "Your current name : #{user.name}"
+            puts "Your current email: #{user.contact_email}"
+            puts "Your current name: #{user.name}"
 
-            puts "Enter your new email id :"
+            puts "Enter your new email id: "
             new_email = gets.strip
             user.update(contact_email: new_email)
         else
@@ -132,24 +155,12 @@ class AppController
         puts "If you want to delete your profile type Yes: "
         user = gets.strip
         if user.downcase == "yes"
-            puts "Enter your name : "
-            name = gets.strip
-            user = Consumer.find_by(name: name)
-            user.destroy_all
+            puts "Enter your email: "
+            email_id = gets.strip
+            user = Consumer.find_by(contact_email: email_id)
+            user.destroy
+            puts "ALL DONE!"
         end
-
-
-        
-
-        # puts 'Do you have a account with us? Yes/No :'
-        # user = gets.strip
-        # if user == "yes"
-        # puts "Do you want to delete your name?"
-        # user_id = gets.strip
-        # puts "Do you want to delete your festival?"
-        # f_id = gets.strip
-        # user.delete_all( consumer_id: user_id, festival_id:, review_description: , rating: )
-        # end
     end
 
     
@@ -162,4 +173,3 @@ class AppController
     end 
     
 end
-            
