@@ -2,7 +2,7 @@ require 'pry'
 
 class AppController
 
-    def run 
+    def welcome 
         puts "Welcome to Fest Tracker."
         puts "What would you like to do today?"
 
@@ -38,6 +38,12 @@ class AppController
         end
       
     end
+
+
+    def run
+        welcome 
+        main_menu
+    end 
         # new_array = []
         # festivals = Festival.all
         # new_array << festivals.map do |fest|
@@ -63,3 +69,4 @@ end
 
         # map { |fest| fest.location}.uniq
         #      "#{fest.location}"
+
