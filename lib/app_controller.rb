@@ -22,8 +22,8 @@ class AppController
             when 2
             puts 'Do you have account with us? Yes/ No'
             ans = gets.strip
-            user_details = current_user(ans)
-            add_reviews(user_details)
+            user_profile = current_user(ans)
+            add_reviews(user_profile)
             when 3
                 update_profile
             when 4
@@ -110,13 +110,13 @@ class AppController
         if ans.downcase == 'yes'
             puts 'Enter your email: '
             email = gets.strip
-            user_details = Consumer.find_by(contact_email: email)
+            user_profile = Consumer.find_by(contact_email: email)
         else
-            puts 'You have to register to leave Review!'
-            user_details = create_user
+            puts 'Register your profile!'
+            user_profile = create_user
             
         end
-        user_details
+        user_profile
     end
 
 
@@ -153,13 +153,13 @@ class AppController
 
     def delete_profile
         puts "If you want to delete your profile type Yes: "
-        user = gets.strip
-        if user.downcase == "yes"
+        ans = gets.strip
+        if ans.downcase == "yes"
             puts "Enter your email: "
             email_id = gets.strip
             user = Consumer.find_by(contact_email: email_id)
             user.destroy
-            puts "ALL DONE!"
+            puts "SET TO SEE YOU LEAVE!"
         end
     end
 
