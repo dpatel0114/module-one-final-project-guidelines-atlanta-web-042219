@@ -15,6 +15,7 @@ class AppController
         print "2. add reviews. \t"
         print "3. Update profile.\t"
         puts  "4. Delete profile.\t"
+        puts  "5.  exit"
 
         choice = gets.strip.to_i
            
@@ -22,6 +23,7 @@ class AppController
             when 1
               list_locations
             when 2
+            puts "\n"  
             puts 'Do you have account with us? Yes/ No'
             ans = gets.strip
             user_profile = current_user(ans)
@@ -30,6 +32,8 @@ class AppController
                 update_profile
             when 4
                 delete_profile
+            when 5
+                exit
             else 
             puts "Invalid Entry."
         
@@ -43,15 +47,17 @@ class AppController
         festivals.each_with_index do |fest,id|
             puts " #{id+1}. #{fest.location}"
         end
-        user = gets.strip.to_i
+        ans = gets.strip.to_i
     end
 
 
     def festival_by_location(location)
-        puts "Choose a category: "
         # binding.pry
+        puts "Choose a category: "
+
         count = 1
         case location 
+
         when 1
             Festival.where(location: "Atlanta, GA").find_each do |fest|
                 puts "#{count}.  #{fest.category} "
@@ -77,7 +83,6 @@ class AppController
         else
             location_name = "New York City, NY"
         end 
-
         count =1
         case category
         when 1
@@ -98,6 +103,7 @@ class AppController
         else 
             "Invalid Entry!!"
         end
+        main_menu
     end
 
     
@@ -115,18 +121,21 @@ class AppController
         Review.create(consumer_id: user.id, festival_id: f_id,review_description: review,
                     rating: rate)
 
-        puts 'Thank you for leaving a review!'
+        puts " *** Thank you for leaving a review! *** "
+        main_menu
     end
 
 
     def current_user(ans)
         #Test
         if ans.downcase == 'yes'
-            puts 'Enter your email: '
+            puts "\n"
+            puts "Enter your email: "
             email = gets.strip
             user_profile = Consumer.find_by(contact_email: email)
         else
-            puts 'Register your profile!'
+            puts "\n"
+            puts "Register your profile!"
             user_profile = create_user
             
         end
@@ -137,6 +146,7 @@ class AppController
     def create_user
         puts 'Enter Your Full Name:'
         u_name = gets.strip
+        puts "\n"
         puts 'Enter your email:'
         email_id = gets.strip
         Consumer.create(name: u_name, contact_email: email_id)
@@ -144,6 +154,8 @@ class AppController
 
 
     def update_profile
+
+        puts "\n"
         puts 'Do you have a account with us? Yes/No :'
         ans = gets.strip
         if ans.downcase == 'yes'
@@ -153,6 +165,7 @@ class AppController
             puts "Your current email: #{user.contact_email}"
             puts "Your current name: #{user.name}"
 
+            puts "\n"
             puts "Enter your new email id: "
             new_email = gets.strip
             user.update(contact_email: new_email)
@@ -160,10 +173,11 @@ class AppController
             current_user('no')
 
         end
-        puts "Thank you for being a valuable member! "
+        puts "\n"
+        puts " *****  Thank you for being a valuable member! ***** "
+        main_menu
     end 
     
-
 
     def delete_profile
         puts "If you want to delete your profile type Yes: "
@@ -173,7 +187,8 @@ class AppController
             email_id = gets.strip
             user = Consumer.find_by(contact_email: email_id)
             user.destroy
-            puts "SET TO SEE YOU LEAVE!"
+            puts "\n"
+            puts " ***** SET TO SEE YOU LEAVE! ***** "
         end
     end
 
