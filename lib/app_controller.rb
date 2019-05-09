@@ -119,6 +119,7 @@ class AppController
 
 
     def current_user(ans)
+        #Test
         if ans.downcase == 'yes'
             puts 'Enter your email: '
             email = gets.strip
