@@ -1,5 +1,4 @@
 require 'pry'
-
 class AppController
 
     def welcome 
@@ -14,7 +13,7 @@ class AppController
         print "1. list of locations of festival.\t"
         print "2. add reviews. \t"
         print "3. Update profile.\t"
-        print "4. Delete profile.\t"
+        puts  "4. Delete profile.\t"
 
         choice = gets.strip.to_i
            
@@ -82,17 +81,17 @@ class AppController
         case category
         when 1
             Festival.where(category: "music",location:location_name).find_each do |fest|
-                puts "#{count}. #{fest.name} "
+                puts "#{count}. #{fest.name} => #{fest.date_time}"
                 count +=1
             end
         when 2
             Festival.where(category: "art",location:location_name).find_each do |fest|
-                puts "#{count}.  #{fest.name} "
+                puts "#{count}.  #{fest.name} => #{fest.date_time}"
                 count +=1
             end
         when 3
             Festival.where(category: "religious",location:location_name).find_each do |fest|
-                puts "#{count}.  #{fest.name} "
+                puts "#{count}.  #{fest.name} => #{fest.date_time}"
                 count +=1
             end
         else 
