@@ -3,16 +3,18 @@ require 'pry'
 class AppController
 
     def welcome 
-        puts "Welcome to Fest Tracker."
-        puts "What would you like to do today?"
+        puts " "*30 + "*"*50
+        puts " "*40 + "Welcome to Fest Tracker."
+        puts " "*30 + "*"*50 + "\n"
+        puts "===> What would you like to do today? <==="
 
     end
 
     def main_menu
-        puts "1. list of locations of festival." 
-        puts "2. add reviews."
-        puts "3. Update profile."
-        puts "4. Delete profile."
+        print "1. list of locations of festival.\t"
+        print "2. add reviews. \t"
+        print "3. Update profile.\t"
+        print "4. Delete profile.\t"
 
         choice = gets.strip.to_i
            
@@ -46,46 +48,57 @@ class AppController
 
 
     def festival_by_location(location)
+        puts "Choose a category: "
         # binding.pry
         count = 1
         case location 
         when 1
             Festival.where(location: "Atlanta, GA").find_each do |fest|
-                puts "#{count}.  #{fest.name} - #{fest.date_time}"
+                puts "#{count}.  #{fest.category} "
                 count +=1
             end
         when 2
             Festival.where(location: "New York City, NY").find_each do |fest|
-                puts "#{count}.  #{fest.name} - #{fest.date_time}"
+                puts "#{count}.  #{fest.category} "
                 count +=1
             end
         else  
             "Invalid Entry!!"
         end
+        ans = gets.strip.to_i
+        return ans, location
     end
 
 
-    # def festival_by_category()
-    #     count =1
-    #     case category
-    #     when 1
-    #         Festival.where(categpry: "music").find_each do |fest|
-    #             puts "#{count}. #{fest.name} "
-    #             count +=1
-    #         end
-    #     when 2
-    #         Festival.where(category: "art").find_each do |fest|
-    #             puts "#{count}.  #{fest.name} "
-    #             count +=1
-    #         end
-        # when 3
-    #         Festival.where(category: "religious").find_each do |fest|
-    #             puts "#{count}.  #{fest.name} "
-    #             count +=1
-    #         end
-    #     else 
-    #         "Invalid Entry!!"
-    # end
+    def festival_by_category(category,location)
+        
+        if location ==1 
+            location_name = "Atlanta, GA"
+        else
+            location_name = "New York City, NY"
+        end 
+
+        count =1
+        case category
+        when 1
+            Festival.where(category: "music",location:location_name).find_each do |fest|
+                puts "#{count}. #{fest.name} "
+                count +=1
+            end
+        when 2
+            Festival.where(category: "art",location:location_name).find_each do |fest|
+                puts "#{count}.  #{fest.name} "
+                count +=1
+            end
+        when 3
+            Festival.where(category: "religious",location:location_name).find_each do |fest|
+                puts "#{count}.  #{fest.name} "
+                count +=1
+            end
+        else 
+            "Invalid Entry!!"
+        end
+    end
 
     
 
@@ -167,9 +180,13 @@ class AppController
 
     def run
         welcome 
+        puts "\n"
         location = main_menu
-        festival_by_location(location)
-       
+        puts "\n"
+        category,location = festival_by_location(location)
+        puts "\n"
+        festival_by_category(category,location)
+        
     end 
     
 end
