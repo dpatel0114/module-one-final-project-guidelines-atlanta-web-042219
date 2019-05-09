@@ -1,6 +1,9 @@
-require_relative "../lib/festival.rb"
-require_relative "../lib/consumer.rb"
-require_relative "../lib/review.rb"
+Festival.destroy_all
+Review.destroy_all
+Consumer.destroy_all
+# require_relative "../lib/festival.rb"
+# require_relative "../lib/consumer.rb"
+# require_relative "../lib/review.rb"
 
 
 
@@ -24,10 +27,10 @@ Review.create(consumer_id: 2, festival_id: 2, review_description: "it was really
 Review.create(consumer_id: 3, festival_id: 3, review_description: "felt like it was to conservative for our taste", rating: 4.0)
 Review.create(consumer_id: 1, festival_id: 4, review_description: "felt extremely accomodating", rating: 8.0)
 Review.create(consumer_id: 2, festival_id: 5, review_description: "poor community involvement", rating: 3.0)
-Review.create(consumer_id: 3, festival_id: 6, review_description: "the festival was educational and inspiring" rating: 9.0)
+Review.create(consumer_id: 3, festival_id: 6, review_description: "the festival was educational and inspiring", rating: 9.0)
 
-#* Consumer
-Consumer.create(name: ‘Shara Brown’ ,contact_email: ‘sbrown@gmail.com’)
-Consumer.create(name: ‘John Michael’ ,contact_email: ‘jmichael@gmail.com’)
-Consumer.create(name: ‘Stuart Johnson’ ,contact_email: ‘sjohnson@gmail.com’)
+#* Consumer *#
+Consumer.create(name: "Shara Brown" ,contact_email: "sbrown@gmail.com")
+Consumer.create(name: "John Michael" ,contact_email: "jmichael@gmail.com")
+Consumer.create(name: "Stuart Johnson" ,contact_email: "sjohnson@gmail.com")
 
