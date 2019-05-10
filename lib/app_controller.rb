@@ -2,7 +2,7 @@
 require 'pry'
 class AppController
 
-    def welcome 
+    def welcome
         puts " "*30 + "*"*50
         puts " "*40 + "Welcome to Fest Tracker."
         puts " "*30 + "*"*50 + "\n"
@@ -17,7 +17,7 @@ class AppController
         puts  "4. Delete profile.\t"
 
         choice = gets.strip.to_i
-           
+
         case choice
             when 1
               list_locations
@@ -30,15 +30,15 @@ class AppController
                 update_profile
             when 4
                 delete_profile
-            else 
+            else
             puts "Invalid Entry."
-        
+
         end
     end
-    
+
 
     def list_locations
-        puts "Choose a location: "    
+        puts "Choose a location: "
         festivals = Festival.select(:location).distinct
         festivals.each_with_index do |fest,id|
             puts " #{id+1}. #{fest.location}"
@@ -51,7 +51,7 @@ class AppController
         puts "Choose a category: "
         # binding.pry
         count = 1
-        case location 
+        case location
         when 1
             Festival.where(location: "Atlanta, GA").find_each do |fest|
                 puts "#{count}.  #{fest.category} "
@@ -62,7 +62,7 @@ class AppController
                 puts "#{count}.  #{fest.category} "
                 count +=1
             end
-        else  
+        else
             "Invalid Entry!!"
         end
         ans = gets.strip.to_i
@@ -71,12 +71,12 @@ class AppController
 
 
     def festival_by_category(category,location)
-        
-        if location ==1 
+
+        if location ==1
             location_name = "Atlanta, GA"
         else
             location_name = "New York City, NY"
-        end 
+        end
 
         count =1
         case category
@@ -95,12 +95,12 @@ class AppController
                 puts "#{count}.  #{fest.name} => #{fest.date_time}"
                 count +=1
             end
-        else 
+        else
             "Invalid Entry!!"
         end
     end
 
-    
+
 
     def add_reviews(user)
         # binding.pry
@@ -128,7 +128,7 @@ class AppController
         else
             puts 'Register your profile!'
             user_profile = create_user
-            
+
         end
         user_profile
     end
@@ -161,8 +161,8 @@ class AppController
 
         end
         puts "Thank you for being a valuable member! "
-    end 
-    
+    end
+
 
 
     def delete_profile
@@ -177,17 +177,17 @@ class AppController
         end
     end
 
-    
+
 
     def run
-        welcome 
+        welcome
         puts "\n"
         location = main_menu
         puts "\n"
         category,location = festival_by_location(location)
         puts "\n"
         festival_by_category(category,location)
-        
-    end 
-    
+
+    end
+
 end
