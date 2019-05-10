@@ -1,76 +1,92 @@
 
 require 'pry'
-class AppController
+require 'pastel'
 
+
+
+class AppController
+    @@pastel = Pastel.new
+245
     def welcome 
-        puts " "*30 + "*"*50
-        puts " "*40 + "Welcome to Fest Tracker."
-        puts " "*30 + "*"*50 + "\n"
-        puts "===> What would you like to do today? <==="
+        welcome_str = "Welcome to Fest Tracker"
+        puts @@pastel.decorate(" "*30 + "*"*50,:green)
+        puts " "*45 + @@pastel.decorate("#{welcome_str}",:blue,:bold,:underline)
+        puts @@pastel.decorate(" "*30 + "*"*50,:green) + "\n"
+        `say #{welcome_str}`
+        puts @@pastel.decorate("===> What would you like to do today? <===",:cyan,:bold)
+        `say  "What would you like to do today?"`
 
     end
 
     def main_menu
-        print "1. list of locations of festival.\t"
-        print "2. add reviews. \t"
-        print "3. Update profile.\t"
-        puts  "4. Delete profile.\t"
-        puts  "5.  exit"
+        choice = 0
 
-        choice = gets.strip.to_i
-           
-        case choice
-            when 1
-              list_locations
-            when 2
-            puts "\n"  
-            puts 'Do you have account with us? Yes/ No'
-            ans = gets.strip
-            user_profile = current_user(ans)
-            add_reviews(user_profile)
-            when 3
-                update_profile
-            when 4
-                delete_profile
-            when 5
-                exit
-            else 
-            puts "Invalid Entry."
-        
+        until choice == 5
+            
+            print "1. list of locations of festival.\t"
+            print "2. add reviews. \t"
+            print "3. Update profile.\t"
+            puts  "4. Delete profile.\t"
+            puts  "5.  exit"
+
+            print @@pastel.decorate("Enter Your Number : ",:magenta)
+            choice = gets.strip.to_i
+
+            case choice
+                when 1
+                    location = list_locations
+                    puts ""
+                    category,location = festival_by_location(location)
+                    festival_by_category(category,location)
+                when 2
+                    puts "\n"  
+                    print @@pastel.decorate('Do you have account with us? Yes/ No: ',:blue)
+                    ans = gets.strip
+                    user_profile = current_user(ans)
+                    add_reviews(user_profile)
+                when 3
+                    update_profile
+                when 4
+                    delete_profile
+            end
+            puts ""
         end
+        puts @@pastel.decorate("\t\t\tGood Bye! Have a Good Day!! \n", :yellow,:bold)
+        `say "Good Bye! Have a Good Day!"`
     end
     
 
     def list_locations
-        puts "Choose a location: "    
+         
         festivals = Festival.select(:location).distinct
         festivals.each_with_index do |fest,id|
-            puts " #{id+1}. #{fest.location}"
+            puts "\t #{id+1}. #{fest.location}"
         end
+        print @@pastel.decorate("Choose a location : " ,:magenta) 
         ans = gets.strip.to_i
     end
 
 
     def festival_by_location(location)
         # binding.pry
-        puts "Choose a category: "
 
         count = 1
         case location 
 
         when 1
             Festival.where(location: "Atlanta, GA").find_each do |fest|
-                puts "#{count}.  #{fest.category} "
+                puts "\t #{count}.  #{fest.category} "
                 count +=1
             end
         when 2
             Festival.where(location: "New York City, NY").find_each do |fest|
-                puts "#{count}.  #{fest.category} "
+                puts "\t #{count}.  #{fest.category} "
                 count +=1
             end
         else  
             "Invalid Entry!!"
         end
+        print @@pastel.decorate("Choose a category : ",:magenta)
         ans = gets.strip.to_i
         return ans, location
     end
@@ -87,42 +103,43 @@ class AppController
         case category
         when 1
             Festival.where(category: "music",location:location_name).find_each do |fest|
-                puts "#{count}. #{fest.name} => #{fest.date_time}"
+                puts "\t\t#{count}. #{fest.name} => #{fest.date_time}"
                 count +=1
             end
         when 2
             Festival.where(category: "art",location:location_name).find_each do |fest|
-                puts "#{count}.  #{fest.name} => #{fest.date_time}"
+                puts "\t\t#{count}.  #{fest.name} => #{fest.date_time}"
                 count +=1
             end
         when 3
             Festival.where(category: "religious",location:location_name).find_each do |fest|
-                puts "#{count}.  #{fest.name} => #{fest.date_time}"
+                puts "\t\t#{count}.  #{fest.name} => #{fest.date_time}"
                 count +=1
             end
         else 
             "Invalid Entry!!"
         end
-        main_menu
     end
 
     
 
     def add_reviews(user)
         # binding.pry
-        puts "Hi!! #{user.name}"
-        puts 'Enter festival id: '
+        puts ""
+        puts "\t\t Hi!! #{user.name}"
+        `say "Hi!! #{user.name}"`
+        puts ""
+        print @@pastel.decorate('Enter festival id : ',:magenta)
         f_id = gets.strip
-        puts 'Enter your review descriptions: '
+        print @@pastel.decorate('Enter your review descriptions : ',:magenta)
         review = gets.strip
-        puts 'Enter your rating: '
+        print @@pastel.decorate('Enter your rating: ',:magenta)
         rate = gets.strip.to_f
 
         Review.create(consumer_id: user.id, festival_id: f_id,review_description: review,
                     rating: rate)
 
-        puts " *** Thank you for leaving a review! *** "
-        main_menu
+        puts @@pastel.decorate(" *** Thank you for leaving a review! *** ",:yellow)
     end
 
 
@@ -130,7 +147,7 @@ class AppController
         #Test
         if ans.downcase == 'yes'
             puts "\n"
-            puts "Enter your email: "
+            print  @@pastel.decorate("Enter your email: ",:magenta)
             email = gets.strip
             user_profile = Consumer.find_by(contact_email: email)
         else
@@ -144,10 +161,10 @@ class AppController
 
 
     def create_user
-        puts 'Enter Your Full Name:'
+        print @@pastel.decorate('Enter Your Full Name:',:magenta)
         u_name = gets.strip
         puts "\n"
-        puts 'Enter your email:'
+        print @@pastel.decorate('Enter your email:', :magenta)
         email_id = gets.strip
         Consumer.create(name: u_name, contact_email: email_id)
     end
@@ -156,17 +173,17 @@ class AppController
     def update_profile
 
         puts "\n"
-        puts 'Do you have a account with us? Yes/No :'
+        print @@pastel.decorate('Do you have a account with us? Yes/No : ',:blue)
         ans = gets.strip
         if ans.downcase == 'yes'
-            puts 'Enter your email: '
+            print @@pastel.decorate('Enter your email: ',:magenta)
             email_id = gets.strip
             user = Consumer.find_by(contact_email: email_id)
-            puts "Your current email: #{user.contact_email}"
-            puts "Your current name: #{user.name}"
-
-            puts "\n"
-            puts "Enter your new email id: "
+            puts""
+            puts "\t\t Your current email: #{user.contact_email}"
+            puts "\t\t Your current name: #{user.name}"
+            puts ""
+            print @@pastel.decorate("Enter your new email id: ",:magenta)
             new_email = gets.strip
             user.update(contact_email: new_email)
         else
@@ -174,35 +191,29 @@ class AppController
 
         end
         puts "\n"
-        puts " *****  Thank you for being a valuable member! ***** "
-        main_menu
+        puts @@pastel.decorate(" *****  Thank you for being a valuable member! ***** ",:yellow)
     end 
     
 
     def delete_profile
-        puts "If you want to delete your profile type Yes: "
+        print @@pastel.decorate("If you want to delete your profile type Yes: ",:blue)
         ans = gets.strip
         if ans.downcase == "yes"
-            puts "Enter your email: "
+            print @@pastel.decorate("Enter your email : ",:magenta)
             email_id = gets.strip
             user = Consumer.find_by(contact_email: email_id)
             user.destroy
             puts "\n"
-            puts " ***** SET TO SEE YOU LEAVE! ***** "
+            puts @@pastel.decorate(" ***** SAD TO SEE YOU LEAVE! ***** ",:yellow)
         end
     end
 
     
 
     def run
-        welcome 
-        puts "\n"
-        location = main_menu
-        puts "\n"
-        category,location = festival_by_location(location)
-        puts "\n"
-        festival_by_category(category,location)
-        
+        welcome
+        main_menu 
     end 
-    
+
 end
+
