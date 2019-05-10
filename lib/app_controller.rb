@@ -15,7 +15,6 @@ class AppController
         `say #{welcome_str}`
         puts @@pastel.decorate("===> What would you like to do today? <===",:cyan,:bold)
         `say  "What would you like to do today?"`
-
     end
 
     def main_menu
@@ -50,14 +49,15 @@ class AppController
                     delete_profile
             end
             puts ""
+       
+
         end
         puts @@pastel.decorate("\t\t\tGood Bye! Have a Good Day!! \n", :yellow,:bold)
         `say "Good Bye! Have a Good Day!"`
     end
-    
+
 
     def list_locations
-         
         festivals = Festival.select(:location).distinct
         festivals.each_with_index do |fest,id|
             puts "\t #{id+1}. #{fest.location}"
@@ -71,8 +71,7 @@ class AppController
         # binding.pry
 
         count = 1
-        case location 
-
+        case location
         when 1
             Festival.where(location: "Atlanta, GA").find_each do |fest|
                 puts "\t #{count}.  #{fest.category} "
@@ -83,7 +82,7 @@ class AppController
                 puts "\t #{count}.  #{fest.category} "
                 count +=1
             end
-        else  
+        else
             "Invalid Entry!!"
         end
         print @@pastel.decorate("Choose a category : ",:magenta)
@@ -93,8 +92,8 @@ class AppController
 
 
     def festival_by_category(category,location)
-        
-        if location ==1 
+
+        if location ==1
             location_name = "Atlanta, GA"
         else
             location_name = "New York City, NY"
@@ -116,12 +115,12 @@ class AppController
                 puts "\t\t#{count}.  #{fest.name} => #{fest.date_time}"
                 count +=1
             end
-        else 
+        else
             "Invalid Entry!!"
         end
     end
 
-    
+
 
     def add_reviews(user)
         # binding.pry
@@ -154,7 +153,7 @@ class AppController
             puts "\n"
             puts "Register your profile!"
             user_profile = create_user
-            
+
         end
         user_profile
     end
@@ -208,7 +207,7 @@ class AppController
         end
     end
 
-    
+
 
     def run
         welcome
